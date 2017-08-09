@@ -8,6 +8,8 @@
         <div class='treeMargin' v-show="open" v-if="isFolder">
             <item v-for="model in model.children" :model="model" :key='model.id' :current-highlight='currentHighlight' :default-text='defaultText' 　:hover-color='hoverColor' :highlight-color='highlightColor'>
             </item>
+        </div>
+        <div class='treeMargin'>
             <div class='changeTree' @click="addChild" @drop='dropPlus' @dragover='dragOverPlus' @dragenter='dragEnterPlus'>+</div>
         </div>
     </div>
@@ -173,8 +175,13 @@ export default {
         addChild() {
             this.model.children.push({
                 name: this.defaultText ? this.defaultText : 'New Node',
-                id: id++
+                id: id++,
+                children: [],
             })
+
+            if (!this.open) {
+                this.toggle();
+            }
         },
         removeChild(id) {
             // 获取父组件的model.children
