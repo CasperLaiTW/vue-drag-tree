@@ -99,25 +99,14 @@
                     while (!(status === 2)) {
                         let item = nodeStack.shift()
                         if (item.id == from.id) {
-                            item.id = to.id
-                            item.name = to.name
-                            if (to.children && to.children.length > 0) {
-                                item['children'] = to.children
-                            } else {
-                                item.children = []
-                            }
+                            Object.assign(item, to)
                             status++
                             //找到后,跳出当前循环.
                             continue;
                         }
                         if (item.id == to.id) {
-                            item.id = from.id
-                            item.name = from.name
-                            if (from.children && from.children.length > 0) {
-                                item['children'] = from.children
-                            } else {
-                                item.children = []
-                            }
+                            Object.assign(item, from)
+
                             status++
                             //找到后,跳出当前循环.
                             continue;
