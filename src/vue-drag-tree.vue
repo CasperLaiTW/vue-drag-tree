@@ -3,7 +3,7 @@
         <div :id='model.id' @click="toggle" draggable='true' @dragstart='dragStart' @dragover='dragOver' @dragenter='dragEnter' @dragleave='dragLeave' @drop='drop' @dragend='dragEnd' class='treeNodeText' @mouseover='mouseOver' @mouseout='mouseOut' :style='styleObj'>
             <span :class="[isClicked ? 'nodeClicked' : '','vue-drag-node-icon']"></span>
             {{model.name}}
-            <span @click="removeChild(model.id)" v-if='model.id !="0"'>&nbsp;x</span>
+            <span @click.prevent="onRemove(model)" v-if='model.id !="0"'>&nbsp;x</span>
         </div>
         <div class='treeMargin' v-show="open" v-if="isFolder">
             <item v-for="model in model.children" :model="model" :key='model.id' :current-highlight='currentHighlight' :default-text='defaultText' 　:hover-color='hoverColor' :highlight-color='highlightColor'>
@@ -39,6 +39,11 @@
             'current-highlight': Boolean, // 当前节点高亮
             'hover-color': String,
             'highlight-color': String,
+            'confirm-message': {
+                default() {
+                    return 'Are you sure you wish to remove this item?';
+                },
+            },
         },
         computed: {
             isFolder() {
@@ -233,7 +238,12 @@
                         fromParentModelChildren.splice(i, 1)
                     }
                 }
-            }
+            },
+            onRemove(model) {
+                if(confirm(this.confirmMessage)) {
+                    this.removeChild(model.id);
+                }
+            },
         },
         beforeCreate() {
             this.$options.components.item = require('./vue-drag-tree')
