@@ -6,8 +6,8 @@
             <span @click.prevent="onRemove(model)" v-if='model.id !="0"'>&nbsp;x</span>
         </div>
         <div class='treeMargin' v-show="open" v-if="isFolder">
-            <item v-for="model in model.children" :model="model" :key='model.id' :current-highlight='currentHighlight' :default-text='defaultText' 　:hover-color='hoverColor' :highlight-color='highlightColor'>
-            </item>
+            <vue-drag-tree-com v-for="model in model.children" :model="model" :key='model.id' :current-highlight='currentHighlight' :default-text='defaultText' 　:hover-color='hoverColor' :highlight-color='highlightColor'>
+            </vue-drag-tree-com>
         </div>
         <div class='treeMargin' v-show="open">
             <div class='changeTree' @click="addChild" @drop='dropPlus' @dragover='dragOverPlus' @dragenter='dragEnterPlus'>+</div>
